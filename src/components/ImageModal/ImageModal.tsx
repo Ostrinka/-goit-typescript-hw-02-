@@ -1,7 +1,9 @@
+import React from "react";
 import Modal from "react-modal";
+import { ImageModalProps } from "./ImageModal.type"
 import css from './ImageModal.module.css'; 
 
-export default function ImageModal({ isOpen, imageUrl, onClose }) {
+const ImageModal: React.FC<ImageModalProps> = ({ isOpen, imageUrl, onClose }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -12,8 +14,9 @@ export default function ImageModal({ isOpen, imageUrl, onClose }) {
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
     >
-      <img src={imageUrl} alt="Large" className={css.img} />
+      {imageUrl && <img src={imageUrl} alt="Large" className={css.img} />}
     </Modal>
   );
-}
+};
 
+export default ImageModal;

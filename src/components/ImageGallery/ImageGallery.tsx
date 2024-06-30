@@ -1,7 +1,8 @@
 import ImageCard from '../ImageCard/ImageCard';
+import {ImageGalleryProps} from "./ImageGallery.type"
 import css from "./ImageGallery.module.css";
 
-export default function ImageGallery({ images, openModal }) {
+const ImageGallery: React.FC<ImageGalleryProps> = ({ images, openModal }) => {
   return (
     <ul className={css.menu}>
       {images.map((image) => (
@@ -12,3 +13,5 @@ export default function ImageGallery({ images, openModal }) {
     </ul>
   );
 }
+
+export default ImageGallery;
