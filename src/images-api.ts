@@ -3,9 +3,13 @@ import { Image } from "./components/App/App.types";
 
 axios.defaults.baseURL = 'https://api.unsplash.com/';
 
+interface ApiResponse {
+  results: Image[];
+}
+
 export const getImages = async (topic: string, currentPage: number): Promise<Image[]> => {
   try {
-    const response = await axios.get('/search/photos', {
+    const response = await axios.get<ApiResponse>('/search/photos', {
       params: {
         client_id: 'yD0L5Cqynfmn627UPGR5HTIwjtjzlc8C8OpnfIo_5bE',
         query: topic,
@@ -16,6 +20,7 @@ export const getImages = async (topic: string, currentPage: number): Promise<Ima
 
     return response.data.results;
   } catch (error) {
-    throw new Error('Failed to fetch images'); 
+    console.error('Failed to fetch images', error);
+    throw new Error('Failed to fetch images');
   }
 };
