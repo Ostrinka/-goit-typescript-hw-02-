@@ -7,15 +7,16 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ImageModal from '../ImageModal/ImageModal';
 import { getImages } from '../../images-api';
+import { Image } from "./App.types";
 
 export default function App() {
-  const [images, setImages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [modalUrl, setModalUrl] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [images, setImages] = useState<Image[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [query, setQuery] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [modalUrl, setModalUrl] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -30,7 +31,7 @@ export default function App() {
           setImages((prevImages) => [...prevImages, ...response]);
         }
       } catch (error) {
-        setError(error);
+        setError(true);
         toast.error('Failed to fetch images');
       } finally {
         setLoading(false);
@@ -40,7 +41,7 @@ export default function App() {
     fetchImages();
   }, [query, currentPage]);
 
-  const onSubmit = (searchQuery) => {
+  const onSubmit = (searchQuery: string) => {
     setCurrentPage(1);
     setImages([]);
     setQuery(searchQuery);
@@ -50,7 +51,7 @@ export default function App() {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const openModal = (imageUrl) => {
+  const openModal = (imageUrl: string) => {
     setModalUrl(imageUrl);
     setIsModalOpen(true);
   };
@@ -74,7 +75,7 @@ export default function App() {
           <ImageModal isOpen={isModalOpen} imageUrl={modalUrl} onClose={closeModal} />
         </>
       ) : (
-        <ErrorMessage error={error} />
+        <ErrorMessage message ="Failed to fetch images"/>
       )}
       <Toaster position="top-right" />
     </div>
